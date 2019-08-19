@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.mapper.FixMapper">
+    <select id="selectAll" resultType="system.entity.Form1">
+        SELECT fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang from fix LEFT  JOIN user1 ON fix.username = user1.username ORDER BY fix.timenow DESC
+    </select>
+    <!--List selectBysbmc();-->
+    <select id="selectBysbmc" resultType="system.entity.Form1">
+        SELECT fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang from fix LEFT  JOIN user1 ON fix.username = user1.username  WHERE fix.sbmc like "%"#{input}"%" ORDER BY fix.timenow DESC
+    </select>
+    <!--List selectByname();-->
+    <select id="selectByname" resultType="system.entity.Form1">
+        SELECT fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang from fix LEFT  JOIN user1 ON fix.username = user1.username  WHERE fix.username like "%"#{input}"%" ORDER BY fix.timenow DESC
+    </select>
+    <!--List selectBycontent();-->
+    <select id="selectBycontent" resultType="system.entity.Form1">
+        SELECT fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang from fix LEFT  JOIN user1 ON fix.username = user1.username WHERE fix.content like "%"#{input}"%" ORDER BY fix.timenow DESC
+    </select>
+    <select id="selectByvalue" resultType="system.entity.Form1">
+        SELECT fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang from fix LEFT  JOIN user1 ON fix.username = user1.username WHERE fix.value like "%"#{input}"%" ORDER BY fix.timenow DESC
+    </select>
+</mapper>

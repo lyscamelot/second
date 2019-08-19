@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.mapper.AuthorizationMapper">
+
+
+    <select id="queryRolesByUserId" resultType="system.entity.SysRole">
+        SELECT DISTINCT
+        role.*
+        FROM
+        `sys_user_role` t
+        LEFT JOIN sys_role role ON t.role_id = role.id
+        <where>
+            <if test="_parameter != null and _parameter != '' ">
+                t.user_id = #{_parameter}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMenusByUserId" resultType="system.entity.SysMenu">
+        SELECT DISTINCT
+        menu.id,
+        menu.parent_id as parentId,
+        menu.name,
+        menu.sort,
+        menu.href,
+        menu.icon,
+        menu.permission,
+        menu.remarks,
+        menu.is_show as isShow
+        FROM
+        `sys_user_role` t
+        INNER JOIN sys_role_menu t1 ON t.role_id = t1.role_id
+        LEFT JOIN sys_menu menu ON t1.menu_id = menu.id
+        <where>
+            menu.id IS NOT NULL
+            <if test="_parameter != null and _parameter != '' ">
+                AND t.user_id = #{_parameter}
+            </if>
+        </where>
+        ORDER by sort desc
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.mapper.SysUserDao">
+    <select id="getByCode" resultType="system.entity.SysParam">
+        SELECT p.name, p.code, p.value FROM sys_param p WHERE p.code = #{code}
+    </select>
+
+
+    <delete id="deleteBatch">
+        DELETE FROM sys_user where id IN
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{ids}
+        </foreach>
+    </delete>
+    
+    <select id="getRoleInfo" resultType="system.entity.SysRole">
+        SELECT
+            sr.id id,
+            sr.`name` name,
+            remarks
+        FROM
+            sys_role sr
+        LEFT JOIN sys_user_role sur ON sr.id = sur.role_id
+        <where>
+            <if test="_parameter != null and _parameter !=''">
+                sur.user_id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getMenuinfo" resultType="system.entity.SysMenu">
+        SELECT DISTINCT
+        sm.*
+        FROM sys_role_menu srm LEFT JOIN sys_menu sm ON srm.menu_id = sm.id
+        WHERE srm.role_id IN
+        <foreach collection="roleIds" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getdeptinfo" resultType="system.entity.SysDept">
+        SELECT
+        sd.*
+        FROM
+        sys_user_dept sud
+        LEFT JOIN sys_dept sd ON sud.dept_id = sd.id
+        <where>
+            <if test="userId !=null and userId !=''">
+                sud.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectByparam" resultType="system.entity.SysUser">
+        select u.* from sys_user u
+        <if test="sql_filter !=null">
+            RIGHT JOIN sys_user_dept ON sys_user_dept.user_id = u.id
+        </if>
+        <where>
+            1 = 1
+            <if test="sql_filter !=null">
+                and ${sql_filter}
+            </if>
+            <if test="loginName != null and loginName != ''">
+                and login_name like #{loginName}
+            </if>
+            <if test="name != null and name != ''">
+                and name like #{name}
+            </if>
+            <if test="no != null and no != ''">
+                and no like #{no}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAll" resultType="system.entity.SysUser">
+        SELECT *
+        FROM sys_user
+    </select>
+
+    <select id="getUserIdByRoleId" resultType="java.lang.String">
+        SELECT user_id
+        FROM sys_uer_role
+        <where>
+            sys_user_role.role_id = #{roleId}
+        </where>
+    </select>
+
+    <insert id="saveUserRole">
+
+
+    </insert>
+
+</mapper>

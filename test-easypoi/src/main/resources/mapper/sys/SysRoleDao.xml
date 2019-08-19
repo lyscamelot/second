@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.mapper.SysRoleDao">
+	<resultMap id="BaseResultMap" type="system.entity.SysRole">
+		<result column="id" property="id"/>
+		<result column="enname" property="enname"/>
+		<result column="name" property="name"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_by" property="updateBy"/>
+		<result column="update_date" property="updateDate"/>
+		<result column="remarks" property="remarks"/>
+	</resultMap>
+
+	<select id="getAllRole" resultMap="BaseResultMap">
+		select
+		id,
+		enname,
+		name,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks
+		from sys_role
+	</select>
+
+
+
+
+</mapper>

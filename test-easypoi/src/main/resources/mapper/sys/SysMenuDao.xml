@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.mapper.SysMenuDao">
+
+	<select id="getAllMenu" resultType="system.entity.SysMenu">
+		SELECT
+		id,
+		parent_id as parentId,
+		name,
+		sort,
+		href,
+		icon,
+		permission,
+		remarks
+		FROM sys_menu
+		<where>
+			<if test="name != null and name!=''">
+				name = #{name}
+			</if>
+		</where>
+		order by sort
+	</select>
+
+
+</mapper>

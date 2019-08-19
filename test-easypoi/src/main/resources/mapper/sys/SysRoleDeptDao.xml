@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.mapper.SysRoleDeptDao">
+
+
+	<resultMap id="BaseResultMap" type="system.entity.SysDept">
+		<result column="id" property="id"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="parent_ids" property="parentIds"/>
+		<result column="name" property="name"/>
+		<result column="sort" property="sort"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+	</resultMap>
+
+	<select id="selectDeptByRoleId" resultMap="BaseResultMap">
+        SELECT
+        sd.id,
+        sd.parent_id,
+        sd.parent_ids,
+        sd.name,
+        sd.sort,
+        sd.create_by,
+        sd.create_date
+        FROM
+        sys_role_dept rd
+        LEFT JOIN sys_dept sd ON rd.dept_id = sd.id
+        WHERE
+        rd.role_id = #{id} and rd.dept_id != '-666666'
+    </select>
+
+
+	<select id="queryDeptIdList" resultType="java.lang.String">
+		select dept_id from sys_role_dept where dept_id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<delete id="deleteDeptRoleByRoleId">
+		delete from sys_role_dept
+        where role_id = #{id}
+	</delete>
+
+	<insert id="insertDeptRoleRel">
+		INSERT into sys_role_dept(role_id,dept_id)
+         VALUES(#{roleId},#{deptId})
+	</insert>
+
+	<select id="selectDeptIdByRoleId" resultType="String">
+		SELECT
+		rd.dept_id
+        FROM
+        sys_role_dept rd
+        WHERE
+        rd.role_id = #{id}
+	</select>
+
+
+	<insert id="insertBatch" parameterType="java.util.ArrayList">
+		INSERT into sys_role_dept(role_id,dept_id) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.roleId},#{item.deptId})
+		</foreach>
+	</insert>
+
+
+
+</mapper>

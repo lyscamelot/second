@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  main:
+    allow-bean-definition-overriding: true
+#    time-zone: GMT+8
+jes:
+  shiro:
+    anonUrls:
+      - /login
+      - /swagger-ui.html
+      - /notlogin
+      - /v2/api-docs
+      - /swagger-resources/**
+      - /ui/**
+      - /static/**
+      - /css/**
+      - /img/**
+      - /js/**
+      - /captcha.jpg
+# 文件系统
+minio:
+  url: http://114.115.158.120:9000
+  access-key: 7326itcx
+  secret-key: 7326itcx

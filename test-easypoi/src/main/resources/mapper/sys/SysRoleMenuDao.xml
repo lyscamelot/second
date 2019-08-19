@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.mapper.SysRoleMenuDao">
+
+    <resultMap id="BaseResultMap" type="system.entity.SysMenu">
+    <result column="id" property="id"/>
+    <result column="parent_id" property="parentId"/>
+    <result column="parent_ids" property="parentIds"/>
+    <result column="name" property="name"/>
+    <result column="sort" property="sort"/>
+    <result column="href" property="href"/>
+    <result column="target" property="target"/>
+    <result column="icon" property="icon"/>
+    <result column="is_show" property="isShow"/>
+    <result column="permission" property="permission"/>
+    <result column="create_by" property="createBy"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_by" property="updateBy"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="remarks" property="remarks"/>
+
+
+
+</resultMap>
+
+
+    <select id="selectMenuByRoleId" resultMap="BaseResultMap">
+        SELECT distinct
+            sm.id,
+            sm.parent_id,
+            sm.parent_ids,
+            sm.name,
+            sm.sort,
+            sm.href,
+            sm.target,
+            sm.icon,
+            sm.is_show,
+            sm.permission,
+            sm.create_by,
+            sm.create_date,
+            sm.update_by,
+            sm.update_date,
+            sm.remarks
+        FROM
+        sys_role_menu rm
+        left join sys_menu sm on sm.id = rm.menu_id
+        WHERE
+            rm.role_id = #{id} and rm.menu_id != '-666666'
+
+    </select>
+
+    <select id="selectMenuIdByRoleId" resultType="String">
+        select
+        u.menu_id
+        from
+        sys_role_menu u
+        where u.role_id = #{id}
+    </select>
+
+    <delete id="deleteMenuRoleByRoleId">
+        delete from sys_role_menu
+        where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertMenuRoleRel">
+        INSERT into sys_role_menu(role_id,menu_id)
+         VALUES(#{roleId},#{menuId})
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.ArrayList">
+        INSERT into sys_role_menu(role_id,menu_id) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.menuId})
+        </foreach>
+    </insert>
+
+
+
+
+
+
+</mapper>

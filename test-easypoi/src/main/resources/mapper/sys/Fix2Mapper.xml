@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.mapper.Fix2Mapper">
+    <select id="findAll" resultType="system.entity.Form2">
+        SELECT fix.time,fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang,user1.tel from fix LEFT  JOIN user1 ON fix.username = user1.username ORDER BY fix.timenow DESC
+    </select>
+    <select id="findBytype1" resultType="system.entity.Form2">
+        SELECT fix.time,fix.value,fix.fixid,fix.type1,fix.timenow,fix.imgurl, fix.content, fix.username,user1.touxiang,user1.tel from fix LEFT  JOIN user1 ON fix.username = user1.username WHERE type1=#{type1} ORDER BY fix.timenow DESC
+    </select>
+</mapper>

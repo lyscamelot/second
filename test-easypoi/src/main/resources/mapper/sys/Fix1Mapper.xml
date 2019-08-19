@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.mapper.Fix1Mapper">
+    <select id="selectNo" resultType="system.entity.Fix">
+        SELECT * from fix WHERE type1 like "未解决" AND  username like #{username} ORDER BY timenow DESC
+    </select>
+    <!--UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值-->
+    <select id="selectYes" resultType="system.entity.Fix">
+        SELECT * from fix WHERE type1 like "已解决" AND  username like #{username} ORDER BY timenow DESC
+    </select>
+    <update id="updateByfixid" >
+        UPDATE fix SET type1 = "已解决",pingfen = #{pingfen},content2=#{content2} WHERE fixid = #{fixid}
+    </update>
+</mapper>
